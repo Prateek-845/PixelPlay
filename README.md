@@ -2,7 +2,7 @@
 
 **PixelPlay** is a multimodal AI application that translates visual stimuli (images) into auditory experiences (songs). It uses Computer Vision and Vector Embeddings to bridge the gap between sight and sound.
 
- **Live Demo:** https://share.streamlit.io/](https://pixelplay-demo.streamlit.app/
+ **Live Demo:** https://pixelplay-demo.streamlit.app/
 
 ---
 
