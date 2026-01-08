@@ -1,68 +1,80 @@
-# PixelPlay: Image to Audio Translation Engine 
+# PixelPlay : Visual to Audio Translation Engine
 
-**PixelPlay** is a multimodal AI application that translates visual stimuli (images) into auditory experiences (songs). It uses Computer Vision and Vector Embeddings to bridge the gap between sight and sound.
+PixelPlay is a multimodal AI application designed to translate visual stimuli into auditory experiences. By leveraging Computer Vision and Cross Modal Vector Embeddings, the system bridges the gap between sight and sound, enabling users to discover music that semantically matches the "vibe" of an input image.
 
- **Live Demo:** https://pixelplay-demo.streamlit.app/
- 
-                username: lord
-                password: 123456
+**Live Demo:** https://pixelplay-demo.streamlit.app/
 
----
+**Test Credentials:**
+* **Username:** lord
+* **Password:** 123456
 
-## How It Works
+## Overview
 
-PixelPlay does not use simple tag matching. It uses **Cross-Modal Vector Embeddings** to understand the "vibe" of an image mathematically.
+Unlike traditional tag-based search engines, PixelPlay utilizes **Cross Modal Vector Embeddings** to perform semantic matching. The core architecture relies on OpenAI's CLIP (Contrastive Language Image Pretraining) model to project both images and text descriptions of music into a shared 512 dimensional vector space.
 
-1.  **Visual Encoder:** The app uses OpenAI's **CLIP (Contrastive Language-Image Pretraining)** model to convert an uploaded image into a 512-dimensional vector.
-2.  **Audio Vector Space:** I preprocessed a dataset of 10,000 songs, generating text descriptions for each and converting them into the same vector space.
-3.  **Cosine Similarity Search:** When you upload an image, the app calculates the cosine similarity between the **Image Vector** and every **Song Vector** in the database to find the closest semantic matches.
+When a user uploads an image, the system:
+1.  **Encodes** the image into a high-dimensional vector using the CLIP Visual Encoder.
+2.  **Computes** the Cosine Similarity between the input image vector and a pre indexed vector database of 10,000 songs.
+3.  **Retrieves** the tracks with the highest semantic correlation to the visual input.
 
-### Key Features
-* **Multimodal Search:** Search for music using Images, Text, or a combination of both (Hybrid Search).
-* **Pivot Search:** "Find Similar" feature allows users to pivot from visual search to audio-based vector search.
-* **Audio Intelligence:** Visualizes song metrics (Energy, Valence, Danceability) using Radar Charts.
-* **Secure Authentication:** Includes user registration, password hashing (bcrypt), and session management.
+## Features
 
----
+### Core Functionality
+* **Image-to-Audio Search:** Upload any image file (JPG, PNG) to receive a curated list of song recommendations that match the visual content and mood.
+* **Hybrid Text Refinement:** Refine visual search results by adding text context (e.g., "Energetic," "Warm," "Fast paced"). The system mathematically blends the image vector with the text vector to adjust the search trajectory.
+* **Audio Pivot Search:** The "Find Similar" button allows users to pivot from visual search to audio-based search. Selecting this option uses the specific vector of a recommended song to find other tracks with similar audio profiles.
+
+### User Interface & Experience
+* **Integrated Audio Player:** Preview recommended tracks directly within the application using the native HTML5 audio player (supports MP3/M4A).
+* **Spotify Integration:** Each song card includes a direct "Open on Spotify" link, allowing users to instantly transition from discovery to full playback on their preferred streaming platform.
+* **Real Time Metadata:** Displays accurate song titles, artist names, genres, and release years. The system prioritizes real time metadata fetched via iTunes API during data enrichment, falling back to dataset values only when necessary.
+* **Visual Data Analytics:** Every recommendation includes a dynamic Radar Chart visualizing key audio metrics:
+    * **Energy:** Intensity and activity level.
+    * **Valence:** Musical positiveness.
+    * **Danceability:** Suitability for dancing.
+    * **Acousticness:** Confidence the track is acoustic.
+
+### System & Security
+* **Secure Authentication:** Complete user management system featuring secure login, account registration, and password recovery.
+* **Password Hashing:** User credentials are secured using bcrypt hashing standards.
+* **Session Management:** Persistent session states ensure users remain logged in and retain their search context during navigation.
+* **Data Enrichment Pipeline:** A custom built ETL pipeline fetches and updates metadata (album art, preview URLs) to ensure high quality display data without slowing down runtime performance.
 
 ## Technical Architecture
 
-The repository is structured to separate the **Live Application** from the **Data Engineering Pipeline**.
+The codebase follows a modular architecture, separating the production application logic from the data engineering pipelines.
 
-### 1. The Application (`/`)
-* `app.py`: Main Streamlit controller.
-* `logic.py`: Handles CLIP model inference and vector calculations.
-* `ui_components.py`: Manages the CSS design system and frontend rendering.
-* `auth_manager.py`: Handles user session security.
+### Application Layer (`/`)
+* **`app.py`**: The central controller that orchestrates the Streamlit interface and application flow.
+* **`logic.py`**: Contains the core business logic, including CLIP model inference, vector calculations, and data loading routines.
+* **`ui_components.py`**: Manages the frontend design system, including custom CSS injection, card rendering, and chart generation.
+* **`auth_manager.py`**: Encapsulates all authentication logic, config handling, and security protocols.
 
-### 2. The Data Pipeline (`/data processing`)
-* `clean_data.py`: Pre-processing raw CSV data.
-* `embed_songs.py`: Generates vector embeddings for the music dataset using CLIP.
-* `enrich_data.py`: Hydrates the dataset with real metadata (Album Art, Preview URLs) via the iTunes API.
+### Data Engineering (`/data processing`)
+* **`clean_data.py`**: Handles initial cleaning and normalization of the raw CSV dataset.
+* **`embed_songs.py`**: Runs the inference batch job to generate 512-dimensional vector embeddings for the entire music catalog.
+* **`enrich_data.py`**: A post-processing script that queries external APIs (iTunes) to hydrate the dataset with high-quality metadata, album artwork, and audio preview URLs.
 
-### 3. The Data (`/data`)
-* Contains the raw source datasets used to build the vector database.
+### Data Storage (`/data`)
+* **`data/`**: Stores the raw source datasets and intermediate files used during the build process. The production app relies on an optimized pickle file (`songs_enriched.pkl`) generated by the pipeline.
 
----
-
-## How to Run Locally
+## Installation and Local Deployment
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/yourusername/PixelPlay.git](https://github.com/yourusername/PixelPlay.git)
+    git clone [https://github.com/Prateek-845/PixelPlay.git]
     cd PixelPlay
     ```
 
 2.  **Install Dependencies**
+    Ensure you have Python installed, then run:
     ```bash
     pip install -r requirements.txt
     ```
 
-3.  **Run the App**
+3.  **Run the Application**
     ```bash
     streamlit run app.py
     ```
 
----
-
-*Note: This project is a portfolio demonstration. User accounts created in the live demo are ephemeral and may be reset during updates.*
+*Note: This project is a portfolio demonstration. User accounts created in the live demo environment are ephemeral and may be reset during system updates or redeployments.*
