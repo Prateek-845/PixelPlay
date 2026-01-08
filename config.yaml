@@ -1,0 +1,17 @@
+cookie:
+  expiry_days: 30
+  key: random_signature_key
+  name: random_cookie_name
+credentials:
+  usernames:
+    lord:
+      email: prateek123@gmail.com
+      name: lord
+      password: $2b$12$zdtosu4akl0oymxhqnse9OnrDXARiDcE3hMoKObsS93KFqEqQMEA2
+    rgupta:
+      email: rgupta@gmail.com
+      name: Rahul Gupta
+      password: $2b$12$9ZtI473g3Y5pAyq3ziQjte9xSe8un8telo6lcXT27Ld1SNuzqWfI2
+preauthorized:
+  emails:
+  - melsby@gmail.com

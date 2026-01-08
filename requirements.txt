@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+sentence-transformers
+torch
+Pillow
+pyyaml
+streamlit-authenticator
+bcrypt
