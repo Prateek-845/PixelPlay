@@ -10,17 +10,17 @@ PixelPlay is a multimodal AI application designed to translate visual stimuli in
 
 ## Overview
 
-Unlike traditional tag-based search engines, PixelPlay utilizes **Cross Modal Vector Embeddings** to perform semantic matching. The core architecture relies on OpenAI's CLIP (Contrastive Language Image Pretraining) model to project both images and text descriptions of music into a shared 512 dimensional vector space.
+Unlike traditional tag based search engines, PixelPlay utilizes **Cross Modal Vector Embeddings** to perform semantic matching. The core architecture relies on OpenAI's CLIP (Contrastive Language Image Pretraining) model to project both images and text descriptions of music into a shared 512 dimensional vector space.
 
 When a user uploads an image, the system:
-1.  **Encodes** the image into a high-dimensional vector using the CLIP Visual Encoder.
+1.  **Encodes** the image into a high dimensional vector using the CLIP Visual Encoder.
 2.  **Computes** the Cosine Similarity between the input image vector and a pre indexed vector database of 10,000 songs.
 3.  **Retrieves** the tracks with the highest semantic correlation to the visual input.
 
 ## Features
 
 ### Core Functionality
-* **Image-to-Audio Search:** Upload any image file (JPG, PNG) to receive a curated list of song recommendations that match the visual content and mood.
+* **Image to Audio Search:** Upload any image file (JPG, PNG) to receive a curated list of song recommendations that match the visual content and mood.
 * **Hybrid Text Refinement:** Refine visual search results by adding text context (e.g., "Energetic," "Warm," "Fast paced"). The system mathematically blends the image vector with the text vector to adjust the search trajectory.
 * **Audio Pivot Search:** The "Find Similar" button allows users to pivot from visual search to audio-based search. Selecting this option uses the specific vector of a recommended song to find other tracks with similar audio profiles.
 
